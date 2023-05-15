@@ -179,19 +179,28 @@ def dashboard(request):
     sal_info = None
     if request.method == 'POST':
         emp_name = request.POST.get('emp_name')
-        emp_info = Employee.objects.filter(name=emp_name)[0]
-        sal_info = Salarie.objects.filter(user=emp_info)[0]
-        print(sal_info)
+        print(emp_name)
+        emp_info = Employee.objects.filter(name=emp_name).values()
+        sal_info = Salarie.objects.filter(user=emp_info)
+        print(emp_info)
     user = request.user
     store = Store.objects.filter(user=user).first()
-    store_name = store.name
+    print(store)
+   ## store_name = store.name
+   ## print(store_name)
     employees_ = Employee.objects.all()
+    print(employees_)
     employees = []
     for i in employees_:
-        if i.store == store:
-            employees.append(i.name)
+      if i.store == store:
+        employees.append(i.name)
+    print(employees)
     context = {
-        'store_name': store_name,
+        'user':user,
+        'store':store,
+        'employee':employees_,
+
+
         'emp_name': emp_name,
         'emp_info': emp_info,
         'employees': employees,

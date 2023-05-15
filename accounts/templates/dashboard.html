@@ -1,6 +1,9 @@
 
 {% extends "base2.html" %}
 {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<body>
 
      <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'home' %}">TO</a>
@@ -27,19 +30,15 @@
                   <input type="hidden" name="clinicname" value="{{clinic_name}}">
                   <label class="col-sm-12 col-form-label"><font size="4">Store Name : <b>{{ store_name }}</b></font></label>
 
-              {% for employee in employees %}
-              <div>
-                       <form method='POST' action="{% url 'dashboard' %}">
-                        {% csrf_token %}
 
-                           <input type="hidden" name="emp_name" value="{{ employee }}">
-                           #)&nbsp;<button  type="submit" class="btn btn-success" style="padding: 2px;cursor: pointer;color:black;">
-                               <font color="white" size="3"><b>{{employee}}</b></font>
-                        </button>
-                        </form>
-                  <hr>
-              </div>
-               {% endfor %}
+              <form method='POST' action="{% url 'dashboard' %}">
+                  {% csrf_token %}
+
+                  <input name="emp_name" value="{{ employee }}">
+                  &nbsp;<button  type="submit" class="btn btn-success" style="padding: 2px;cursor: pointer;color:black;">
+                  <h1 color="white" size="3"><b>{{employee}}</b></h1>
+              </button>
+              </form>
           </div>
         </nav>
 
@@ -50,7 +49,6 @@
           </div>
 
           <div id="demo" width="900" height="380"></div>
-            {% if emp_name %}
                 <div class="container" align="center">
                 <h3><strong>Employee Info</strong></h3><br>
                 </div>
@@ -61,13 +59,13 @@
                                 <div class="col-2"></div>
                                 <div class="col-4">
 
-                                    <p><b>Name : </b>{{emp_info.name}}</p>
+                                    <p><b>Name : </b>{{user}}</p>
                             <p><b>Email : </b> {{emp_info.user.email}}</p>
                             <p><b>Phone : </b> {{emp_info.contact}}</p>
-                            <p><b>Store Name : </b> {{emp_info.store.name}}</p>
+                            <p><b>Store Name : </b> {{store_name}}</p>
                             <p><b>Store Email : </b> {{emp_info.store.email}}</p>
                             <p><b>Taxes : </b> {{emp_info.taxes}}</p>
-                            <p><b>Leaves : </b> {{emp_info.leaves}}</p>
+                            <p><b>Leaves : </b> {{employee}}</p>
                                 </div>
                                 <div class="col-2"></div>
                                 <div class="col-4">
@@ -85,10 +83,10 @@
                             
 
                 </div>
-            {% endif %}
         </main>
     </div>
 </div>
+     </body>
 
 
 {% endblock content %}
