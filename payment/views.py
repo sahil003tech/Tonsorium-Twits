@@ -90,6 +90,7 @@ def payhome(request):
         }
 
         form = PayPalPaymentsForm(initial=paypal_dict)
+        print(form)
         context = {
             'form':form
         }

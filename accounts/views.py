@@ -47,27 +47,6 @@ class ActivateAccount(View):
         return render(request, 'activate_fail.html', status=401)
 
 
-def send_activation(request, user, status):
-    current_site = get_current_site(request)
-    email_sub = "Activate your Account"
-    message = render_to_string('activate.html',
-                               {
-                                   'user': user,
-                                   'domain': current_site.domain,
-                                   'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                                   'token': generate_token.make_token(user),
-                                   'status': status
-                               }
-                               )
-    email_message = EmailMessage(
-        email_sub,
-        message,
-        settings.EMAIL_HOST_USER,
-        [user.email],
-    )
-    print("---- activation send -----")
-    email_message.send()
-
 
 def RegisterUser(request):
     if request.method == 'POST':
@@ -181,28 +160,36 @@ def dashboard(request):
         emp_name = request.POST.get('emp_name')
         print(emp_name)
         emp_info = Employee.objects.filter(name=emp_name).values()
-        sal_info = Salarie.objects.filter(user=emp_info)
-        print(emp_info)
+     ##   sal_info = Salarie.objects.filter(user=emp_name).values()
+    print("****************",sal_info)
+
+    print("++++++++++++++++++",emp_info)
+
+    new_dict = {}
+    for item in emp_info:
+        new_dict = item
+
+    print("________",new_dict)
+
     user = request.user
     store = Store.objects.filter(user=user).first()
-    print(store)
-   ## store_name = store.name
-   ## print(store_name)
+    store_name = store.name
+
     employees_ = Employee.objects.all()
     print(employees_)
     employees = []
     for i in employees_:
       if i.store == store:
         employees.append(i.name)
-    print(employees)
+
     context = {
         'user':user,
-        'store':store,
+        'store':store_name,
         'employee':employees_,
 
 
         'emp_name': emp_name,
-        'emp_info': emp_info,
+        'emp_info':new_dict,
         'employees': employees,
         'sal_info': sal_info,
     }
